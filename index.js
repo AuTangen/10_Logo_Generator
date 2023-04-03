@@ -1,8 +1,9 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-const generateSVG = require("./lib/generateSVG");
-const shapes = require('./lib/shapes');
-const shapestest = requrie('./lib/shapes.test');
+const Shape = require('./lib/shapes')
+
+
+
 
 
 const questions  = [ {
@@ -11,7 +12,7 @@ const questions  = [ {
 },
 {
     message: 'Enter a color for your logo text',
-    name: 'txtcolor'
+    name: 'textcolor'
 },
 {
     type: 'list',
@@ -21,7 +22,7 @@ const questions  = [ {
 },
 {
     message: 'Enter a color for your background shape',
-    name: 'shpcolor'
+    name: 'shapecolor'
 }
 ];
 
@@ -38,8 +39,10 @@ function writeToFile(fileName, data) {
 }
 
 function init() {
-    inquirer.prompt(questions).then((data) =>
-       writeToFile('./examples/logo.svg', generateSVG(data)));
+    inquirer.prompt(questions).then((data) => {
+        const userLogo = new Shape(data.text, data.textcolor, data.shape, data.shapecolor);
+       writeToFile('./examples/logo.svg', userLogo.render())
+    });
       
 }
 
